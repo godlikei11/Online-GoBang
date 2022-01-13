@@ -2,32 +2,7 @@ let http = require('http');
 let fs = require('fs');
 let url = require('url');
 let MongoClient = require('mongodb').MongoClient;
-let WebSocket = require("ws")
-let wss = new WebSocket.Server({ port: 8081, clientTracking: true });
-let roomDict = {};
-wss.on('connection', function connection(ws) {
-   ws.on('message', function incoming(message) {
-      let Message = JSON.parse(message);
-      if(Message.room!==undefined){
-         if(roomDict[Message.room] === undefined){
-            roomDict[Message.room] = ["ClientA","ClientB"]
-            roomDict[Message.room][0]=Message.user;
-         }
-         else if(roomDict[Message.room][1]==="ClientB"){
-            roomDict[Message.room][1]=Message.user;
-         }
-      }
-      if(Message[0]=="gameover"){
-         console.log(Message[1])
-         delete roomDict[Message[1]]
-      }
-      wss.clients.forEach(function(client){
-         client.send(JSON.stringify(roomDict))
-         client.send(message);
-      })
-   });
 
-});
 
 // 创建服务器
 http.createServer( function (request, response) {  
