@@ -36,8 +36,8 @@ http.createServer( function (request, response) {
    if(request.url.indexOf("?")!=-1){
       let data1 = request.url.split("?");
       let data2 = data1[1].split("&");
-      let Ndata = data2[0].split("=");
-      let Pdata = data2[1].split("=");
+      let NameData = data2[0].split("=");
+      let PassData = data2[1].split("=");
       let urll = "mongodb://localhost:27017/";
       MongoClient.connect(urll, function(err, db) {
          function sendMessage(message){
@@ -49,8 +49,8 @@ http.createServer( function (request, response) {
          let dbo = db.db("Database3");
          if(data2.length==3){
             let Edata = data2[2].split("=");
-            let myobj = { Nickname: Ndata[1], Password: Pdata[1],Email : Edata[1] };
-            let Name = {"Nickname":Ndata[1]}
+            let myobj = { Nickname: NameData[1], Password: PassData[1],Email : Edata[1] };
+            let Name = {"Nickname":NameData[1]}
             dbo.collection("site").find(Name).toArray(function(err, result) {
                if (err) throw err;
                else if(result==""){
@@ -67,8 +67,8 @@ http.createServer( function (request, response) {
             });
          }
          else if(data2.length==2){
-            let myobj = { Nickname: Ndata[1], Password: Pdata[1]};
-            let Name = {"Nickname":Ndata[1]}
+            let myobj = { Nickname: NameData[1], Password: PassData[1]};
+            let Name = {"Nickname":NameData[1]}
             dbo.collection("site").find(Name).toArray(function(err, result) {
                //console.log(result[0].Nickname);
                if (err) throw err;
@@ -76,7 +76,7 @@ http.createServer( function (request, response) {
                   sendMessage("not exist");
                }
                else{
-                  if(Pdata[1]==result[0].Password){
+                  if(PassData[1]==result[0].Password){
                      sendMessage("success");
                     }
                   else{

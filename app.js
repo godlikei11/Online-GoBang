@@ -1,13 +1,26 @@
 
+let Nick = document.cookie.split(";")[1].split("=")[1];
 let chessGame = (function(){
 
     let canvas = document.getElementById("canvas");
+    let button = document.getElementById("button");
+    let user1 = document.getElementById("user1");
+    let user2 = document.getElementById("user2");
+    let user2Background = document.getElementById("user2Background");
+    let user1Background = document.getElementById("user1Background");
     let ctx = canvas.getContext("2d");
     let list = [];
     let chessWidth = 30;
     let size = 15;
     canvas.width = chessWidth * (size+1);
     canvas.height = canvas.width;
+    button.style.marginLeft = (chessWidth * (size-2))/2+"px";
+    button.style.marginTop = chessWidth * (size+2)+"px";
+    user1.style.marginLeft = chessWidth * (size+2)+"px";
+    user2.style.marginLeft = chessWidth * (size+2)+"px";
+    user2Background.style.height = (chessWidth * (size+1))/2+"px";
+    user1Background.style.height = (chessWidth * (size+1))/2+"px";
+    user1Background.style.marginTop = (chessWidth * (size+1))/2+"px";
     function drawChessboard(){
         for(let i=1;i<size+1;i++){
             ctx.beginPath();
@@ -51,6 +64,7 @@ let chessGame = (function(){
     
     function checkWin(chessInfo) {
         let winCase = [];
+        console.log(chessInfo)
         for(let k=0;k<4;k++){
             winCase[k] = winCase[k]||[];
             for(let j=0;j<5;j++){
