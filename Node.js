@@ -18,7 +18,6 @@ wss.on('connection', function connection(ws) {
          }
       }
       if(Message[0]=="gameover"){
-         console.log(Message[1])
          delete roomDict[Message[1]]
       }
       wss.clients.forEach(function(client){
@@ -104,7 +103,7 @@ http.createServer( function (request, response) {
          // HTTP 状态码: 200 : OK
          // Content Type: text/html
          response.writeHead(200, {'Content-Type': 'text/html'});
-         if(request.url=="/main.html"){
+         if(request.url=="/login.html"){
             response.write("<h1>Login </h1>");
          }
          else if(request.url=="/reg.html"){

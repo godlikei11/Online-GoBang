@@ -4,14 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
-
+    "test": "mocha -ui tdd test/",
+    "start": "node Node.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "mocha": "^9.1.4",
     "mongodb": "^4.3.0",
     "nodejs-websocket": "^1.7.2",
     "ws": "^7.4.0"

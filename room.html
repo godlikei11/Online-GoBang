@@ -10,53 +10,93 @@
     <style></style>
 </head>
 <body>
-        <input type="text" id="user">
-        <input type="text" id="room">
-        <button id="btn"></button>
+    <tbody>
+        <tr>
+            <td>
+                Nickname
+            </td>
+            <td>
+                <input type="text" id="user">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Room number
+            </td>
+            <td>
+                <input type="text" id="room">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="btn">Enter</button>
+            </td>
+        </tr>
+    </tbody>
 </body>
 <script>
     
     let btn = document.getElementById("btn");
     let originUser = document.getElementById("user");
     let originRoom = document.getElementById("room");
-    btn.addEventListener("click",function(){
-    if( !originUser || !originRoom ){
-        alert('请输入用户名或者房间号...')
-        return;
+    function clearCookie(){
+        var cookies = document.cookie.split("; ");
+        for (var c = 0; c < cookies.length; c++) {
+            var d = window.location.hostname.split(".");
+            while (d.length > 0) {
+                var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+                var p = location.pathname.split('/');
+                document.cookie = cookieBase + '/';
+                while (p.length > 0) {
+                    document.cookie = cookieBase + p.join('/');
+                    p.pop();
+                };
+                d.shift();
+            }
+        }
     }
-    //console.log(roomMember);
-    let webSocket = new WebSocket("ws://"+document.domain+":8081");
-    webSocket.onopen = function() {
-        webSocket.send(JSON.stringify({
-        room : originRoom.value,
-        user : originUser.value
-    }))
-    setCookie({
+    btn.addEventListener("click",function(){
+        if( originUser.value==="" || originRoom.value===""){
+            alert('Please enter nickname or room number')
+            return;
+        }
+            let webSocket = new WebSocket("ws://"+document.domain+":8081");
+            webSocket.onopen = function() {
+                webSocket.send(JSON.stringify({
                 room : originRoom.value,
-                user : originUser.value,
-            },7);
-            function setCookie(json,time){
-                let data = new Date(new Date().getTime() + time*24*60*60*1000).toUTCString();
-                for(let key in json){
-                    document.cookie = key + "=" + json[key] + ";expires=" + data;
+                user : originUser.value
+            }))
+            webSocket.onmessage = function(message){
+                let Message = JSON.parse(message.data);
+                console.log(originRoom.value)
+                if(Message.room===undefined){
+                    console.log();
+                    if(Message[originRoom.value]!=="undefined"){
+                        if(Message[originRoom.value][0]!==originUser.value&&Message[originRoom.value][1]!==originUser.value){
+                        originRoom.value=""
+                        alert("room is full")
+                        clearCookie();
+                    }
+                    
+                    else{
+                        console.log(message)
+                        setCookie({
+                        room : originRoom.value,
+                        user : originUser.value,
+                    },7);
+                    function setCookie(json,time){
+                        let data = new Date(new Date().getTime() + time*24*60*60*1000).toUTCString();
+                        for(let key in json){
+                            document.cookie = key + "=" + json[key] + ";expires=" + data;
+                        }
+                    }
+
+                        window.location.href="index.html";
+                    }
+                }
                 }
             }
-
-    }
-    webSocket.onmessage = function(message){
-        let Message = JSON.parse(message.data);
-        console.log(originRoom.value)
-        if(Message.room===undefined){
-            console.log(Message[originRoom.value]);
-            if(Message[originRoom.value][0]!==originUser.value&&Message[originRoom.value][1]!==originUser.value){
-                alert("room is full")
-            }
-            else{
-                window.location.href="index.html"//+"?room="+encodeURI(originRoom.value)+"&user="+encodeURI(originUser.value);
-            }
         }
-        }
-
-})
+    })
 </script>
 </html>
