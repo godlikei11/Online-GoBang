@@ -164,4 +164,4 @@ let chessGame = (function(){
         getList : getList,   
     }
 })()
-
+export default chessGame();
