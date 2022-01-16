@@ -2,10 +2,10 @@
   "name": "gobang",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "Node.js",
   "scripts": {
     "test": "mocha -ui tdd test/",
-    "start": "node server.js"
+    "start": "node Node.js"
   },
   "keywords": [],
   "author": "",

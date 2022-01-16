@@ -114,6 +114,7 @@ let chessGame = (function(){
     }
 
     function play(e){
+        console.log(e)
         if(e.clientY<=chessWidth/2||
             e.clientY>=chessWidth*size + chessWidth / 2||
             e.clientX>=chessWidth*size + chessWidth / 2||
@@ -153,6 +154,7 @@ let chessGame = (function(){
     bindEvent();
 
     return{
+        play:play,
         checkWin : checkWin,
         withdraw: withdraw,
         clearCanvas : clearCanvas,
