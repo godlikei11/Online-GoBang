@@ -1,11 +1,11 @@
 {
-  "name": "wuziqi",
+  "name": "gobang",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha -ui tdd",
-    "start": "node Node.js"
+    "test": "mocha -ui tdd test/",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
