@@ -22,4 +22,4 @@ try{
     console.log("Http connect fail")
 }
 console.log("pass");
-process.exit(port:8080)
+process.exit()
