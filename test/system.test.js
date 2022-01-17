@@ -4,4 +4,4 @@ var app = require("../app.js").default
 var network = require("../network.js")
 var Node = require("../Node.js")
 
-app.chessGame.drawChess();
+reg.Register();
